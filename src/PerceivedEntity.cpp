@@ -42,8 +42,8 @@ PerceivedEntity::PerceivedEntity(float x, float y, float z, std::string name) :
 }
 
 PerceivedEntity::~PerceivedEntity() {
-    mAssociatedLegsIDs.clear();
-    mAssociatedFaceIDs.clear();
+//    mAssociatedLegsIDs.clear();
+//    mAssociatedFaceIDs.clear();
 }
 
 float PerceivedEntity::compareWith(const PerceivedEntity &en) const {
