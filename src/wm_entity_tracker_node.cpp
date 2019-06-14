@@ -14,6 +14,7 @@
 #include "TopicOutput.h"
 #include "wm_entity_tracker/wm_entity_trackerConfig.h"
 #include "PointCloudInput.h"
+#include "PosesInput.h"
 
 #define drawCross(center, color, d) \
 line( img, Point( center.x - d, center.y - d ), Point( center.x + d, center.y + d ), color, 2, CV_AA, 0); \
@@ -31,6 +32,7 @@ namespace wm_entity_tracker {
     EntityInput *peopleLegInput;
     EntityInput *peopleFaceInput;
     EntityInput *pointCloudInput;
+    EntityInput *posesInput;
 }
 
 
@@ -67,6 +69,12 @@ void callback(wm_entity_tracker::wm_entity_trackerConfig &config, uint32_t level
     params.errorCovPost = config.pointcloud_input_errorCovPost;
     pointCloudInput->setKalmanParams(params);
 
+    // Set the kalman parameters for the tracker
+    params.processNoiseCov = config.poses_input_processNoiseCov;
+    params.measurementNoiseCov = config.poses_input_measurementNoiseCov;
+    params.errorCovPost = config.poses_input_errorCovPost;
+    pointCloudInput->setKalmanParams(params);
+
     tracker->setPublicationTreashold(config.publication_threshold);
     tracker->setMaximumDifference(config.maximum_difference);
     tracker->setCouplingThreashold(config.coupling_threashold);
@@ -74,24 +82,28 @@ void callback(wm_entity_tracker::wm_entity_trackerConfig &config, uint32_t level
     PerceivedEntity::setZWeight(config.weights_Z);
     PerceivedEntity::setProbabilityWeight(config.weights_probability);
 
-    cout << "=== Eeconfiguration ===\n"\
-         << "tracker->XY_weight=" << PerceivedEntity::xYWeight() << "\n"\
-         << "tracker->Y_weight=" << PerceivedEntity::zWeight() << "\n"\
-         << "tracker->weights_probability=" << PerceivedEntity::probabilityWeight() << "\n"\
-         << "tracker->coupling_threashold=" << tracker->couplingThreashold() << "\n"\
-         << "boundingBoxesInput->processNoiseCov=" << boundingBoxesInput->kalmanParams().processNoiseCov << "\n"\
-         << "boundingBoxesInput->processNoiseCov=" << boundingBoxesInput->kalmanParams().processNoiseCov << "\n"\
-         << "boundingBoxesInput->measurementNoiseCov=" << boundingBoxesInput->kalmanParams().measurementNoiseCov << "\n"\
-         << "boundingBoxesInput->errorCovPost=" << boundingBoxesInput->kalmanParams().errorCovPost << "\n"\
-//         << "peopleLegInput->processNoiseCov=" << peopleLegInput->kalmanParams().processNoiseCov << "\n"\
-//         << "peopleLegInput->measurementNoiseCov=" << peopleLegInput->kalmanParams().measurementNoiseCov << "\n"\
-//         << "peopleLegInput->errorCovPost=" << peopleLegInput->kalmanParams().errorCovPost << "\n"\
-         << "peopleFaceInput->processNoiseCov=" << peopleFaceInput->kalmanParams().processNoiseCov << "\n"\
-         << "peopleFaceInput->measurementNoiseCov=" << peopleFaceInput->kalmanParams().measurementNoiseCov << "\n"\
+    cout << "=== Eeconfiguration ===\n"
+         << "tracker->XY_weight=" << PerceivedEntity::xYWeight() << "\n"
+         << "tracker->Y_weight=" << PerceivedEntity::zWeight() << "\n"
+         << "tracker->weights_probability=" << PerceivedEntity::probabilityWeight() << "\n"
+         << "tracker->coupling_threashold=" << tracker->couplingThreashold() << "\n"
+         << "boundingBoxesInput->processNoiseCov=" << boundingBoxesInput->kalmanParams().processNoiseCov << "\n"
+         << "boundingBoxesInput->processNoiseCov=" << boundingBoxesInput->kalmanParams().processNoiseCov << "\n"
+         << "boundingBoxesInput->measurementNoiseCov=" << boundingBoxesInput->kalmanParams().measurementNoiseCov << "\n"
+         << "boundingBoxesInput->errorCovPost=" << boundingBoxesInput->kalmanParams().errorCovPost << "\n"
+         << "peopleFaceInput->processNoiseCov=" << peopleFaceInput->kalmanParams().processNoiseCov << "\n"
+         << "peopleFaceInput->measurementNoiseCov=" << peopleFaceInput->kalmanParams().measurementNoiseCov << "\n"
          << "peopleFaceInput->errorCovPost=" << peopleFaceInput->kalmanParams().errorCovPost << "\n"
-         << "PointCloudInput->processNoiseCov=" << peopleFaceInput->kalmanParams().processNoiseCov << "\n"\
-         << "PointCloudInput->measurementNoiseCov=" << peopleFaceInput->kalmanParams().measurementNoiseCov << "\n"\
-         << "PointCloudInput->errorCovPost=" << peopleFaceInput->kalmanParams().errorCovPost << "\n";
+//         << "peopleLegInput->processNoiseCov=" << peopleLegInput->kalmanParams().processNoiseCov << "\n"
+//         << "peopleLegInput->measurementNoiseCov=" << peopleLegInput->kalmanParams().measurementNoiseCov << "\n"
+//         << "peopleLegInput->errorCovPost=" << peopleLegInput->kalmanParams().errorCovPost << "\n"
+         << "PointCloudInput->processNoiseCov=" << peopleFaceInput->kalmanParams().processNoiseCov << "\n"
+         << "PointCloudInput->measurementNoiseCov=" << peopleFaceInput->kalmanParams().measurementNoiseCov << "\n"
+         << "PointCloudInput->errorCovPost=" << peopleFaceInput->kalmanParams().errorCovPost << "\n"
+         << "posesInput->processNoiseCov=" << posesInput->kalmanParams().processNoiseCov << "\n"
+         << "posesInput->measurementNoiseCov=" << posesInput->kalmanParams().measurementNoiseCov << "\n"
+         << "posesInput->errorCovPost=" << posesInput->kalmanParams().errorCovPost << "\n";
+
 
 }
 
@@ -109,6 +121,7 @@ int main(int argc, char **argv) {
 //    peopleLegInput = new PeopleLegInput(*tracker, nh, "/people_tracker_measurements");
     peopleFaceInput = new PeopleFaceInput(*tracker, nh, "/SaraFaceDetector/face");
     pointCloudInput = new PointCloudInput(*tracker, nh, "/unknown_objects/segmented_pointclouds/listed");
+    posesInput = new PosesInput(*tracker, nh, "/pose_detection/poses");
 
     //cvOutput = new CvOutput(0, 0, 1, 1);
     //tracker->addOutput(*cvOutput);

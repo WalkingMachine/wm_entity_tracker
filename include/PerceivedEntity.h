@@ -51,6 +51,7 @@ public:
         aliases = entity.aliases;
         lastUpdateTime = entity.lastUpdateTime;
         pointcloud = entity.pointcloud;
+        pose = entity.pose;
     }
     PerceivedEntity(const PerceivedEntity& entity) :
             PerceivedEntity(static_cast<sara_msgs::Entity>(entity)) {

@@ -87,6 +87,21 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
     idTag.color.b = 0.0;
     idTag.color.a = 1;
 
+    visualization_msgs::Marker pose;
+    pose.header.stamp = ros::Time::now();
+    pose.lifetime = ros::Duration(0.5);
+    pose.header.frame_id = "/map";
+    pose.ns = "poses";
+    pose.type = idTag.TEXT_VIEW_FACING;
+    pose.scale.x = 0.1;
+    pose.scale.y = 0.1;
+    pose.scale.z = 0.1;
+    pose.color.r = 1;
+    pose.color.g = 1;
+    pose.color.b = 0.0;
+    pose.color.a = 1;
+
+
     for (auto &entity : entities) {
         m.id = entity.ID;
         m.color.r = float(1 - entity.probability);
@@ -120,6 +135,23 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
         faceID.pose.position.y = entity.face.boundingBox.Center.y;
         faceID.pose.position.z = entity.face.boundingBox.Center.z+0.1;
         markerPublisher.publish(faceID);
+
+        if (entity.name.compare("person") == 0){
+            pose.id = entity.ID;
+            pose.text =  "*********************************************************\n";
+            pose.text += "* left_arm_down: "+to_string(entity.pose.left_arm_down)+"\n";
+            pose.text += "* left_arm_up: "+to_string(entity.pose.left_arm_up)+"\n";
+            pose.text += "* left_arm_point: "+to_string(entity.pose.right_arm_point)+"\n";
+            pose.text += "* right_arm_down: "+to_string(entity.pose.right_arm_down)+"\n";
+            pose.text += "* right_arm_up: "+to_string(entity.pose.right_arm_up)+"\n";
+            pose.text += "* right_arm_point: "+to_string(entity.pose.left_arm_point)+"\n";
+            pose.text += "* posture: "+entity.pose.posture;
+            pose.text += "*********************************************************\n";
+            faceID.pose.position.x = entity.face.boundingBox.Center.x;
+            faceID.pose.position.y = entity.face.boundingBox.Center.y;
+            faceID.pose.position.z = entity.face.boundingBox.Center.z+1;
+            markerPublisher.publish(pose);
+        }
     }
 }
 

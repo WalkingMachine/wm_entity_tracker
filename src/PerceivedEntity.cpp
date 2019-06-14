@@ -148,6 +148,8 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
         name = source.name;
     }
 
+    pose = source.pose;
+
     lastUpdateTime = ros::Time::now();
 
     if (probability < source.probability)
