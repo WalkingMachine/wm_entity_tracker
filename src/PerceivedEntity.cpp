@@ -134,7 +134,7 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
         addLegsID(source.associatedLegsIDs() );
     }
 
-    if (source.lastUpdateTime > lastUpdateTime && source.pointcloud.header.stamp != ros::Time(0)){
+    if (source.pointcloud.header.stamp != ros::Time(0)){
         pointcloud = source.pointcloud;
     }
 
