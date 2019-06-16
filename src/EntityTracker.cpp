@@ -60,7 +60,7 @@ void EntityTracker::update(ros::Duration deltaTime) {
 }
 
 bool entityIsDead(PerceivedEntity &entity) {
-    return entity.probability < 0;
+    return entity.probability < 0 && entity.associatedFaceIDs().size() == 0;
 }
 
 void EntityTracker::deleteDeads() {
