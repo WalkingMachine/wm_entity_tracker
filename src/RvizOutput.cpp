@@ -136,20 +136,20 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
         faceID.pose.position.z = entity.face.boundingBox.Center.z+0.1;
         markerPublisher.publish(faceID);
 
-        if (entity.name.compare("person") == 0){
+        if (entity.pose.parts.size()){
             pose.id = entity.ID;
-            pose.text =  "*********************************************************\n";
+            pose.text =  "*************************\n";
             pose.text += "* left_arm_down: "+to_string(entity.pose.left_arm_down)+"\n";
             pose.text += "* left_arm_up: "+to_string(entity.pose.left_arm_up)+"\n";
-            pose.text += "* left_arm_point: "+to_string(entity.pose.right_arm_point)+"\n";
+            pose.text += "* left_arm_point: "+to_string(entity.pose.left_arm_point)+"\n";
             pose.text += "* right_arm_down: "+to_string(entity.pose.right_arm_down)+"\n";
             pose.text += "* right_arm_up: "+to_string(entity.pose.right_arm_up)+"\n";
-            pose.text += "* right_arm_point: "+to_string(entity.pose.left_arm_point)+"\n";
+            pose.text += "* right_arm_point: "+to_string(entity.pose.right_arm_point)+"\n";
             pose.text += "* posture: "+entity.pose.posture;
-            pose.text += "*********************************************************\n";
-            faceID.pose.position.x = entity.face.boundingBox.Center.x;
-            faceID.pose.position.y = entity.face.boundingBox.Center.y;
-            faceID.pose.position.z = entity.face.boundingBox.Center.z+1;
+            pose.text += "*************************\n";
+            pose.pose.position.x = entity.face.boundingBox.Center.x;
+            pose.pose.position.y = entity.face.boundingBox.Center.y;
+            pose.pose.position.z = entity.face.boundingBox.Center.z+1;
             markerPublisher.publish(pose);
         }
     }

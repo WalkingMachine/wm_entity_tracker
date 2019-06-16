@@ -148,7 +148,7 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
         name = source.name;
     }
 
-    pose = source.pose;
+    if (source.pose.parts.size()) pose = source.pose;
 
     lastUpdateTime = ros::Time::now();
 
