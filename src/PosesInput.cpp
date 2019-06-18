@@ -54,5 +54,5 @@ void PosesInput::posesCallback(sara_msgs::Poses poses) {
 
         entities.push_back(en);
     }
-    perceive(entities, false);
+    perceive(entities, true);
 }

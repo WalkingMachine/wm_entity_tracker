@@ -20,7 +20,7 @@ PerceivedEntity::PerceivedEntity(float x, float y, float z, std::string name) :
     setIdentity(mKF.measurementMatrix);
 
     // Initialise the transition matrix
-    float F{0.98f};
+    float F{0.99f};
     mKF.transitionMatrix = (cv::Mat_<float>(6, 6) << 1, 0, 0, 1, 0, 0, \
                                                     0, 1, 0, 0, 1, 0, \
                                                     0, 0, 1, 0, 0, 1, \
@@ -49,6 +49,9 @@ PerceivedEntity::~PerceivedEntity() {
 }
 
 float PerceivedEntity::compareWith(const PerceivedEntity &en) const {
+
+    if (probability == 0 || en.probability == 0)
+        return 150000;
 
     // Obtain the distance on each axis.
     float dX{float(position.x - en.position.x)};
@@ -127,6 +130,7 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
     if (source.associatedFaceIDs().size()){
         addFaceID(source.associatedFaceIDs() );
         face = source.face;
+        source.clearFaceID();
     }
 
     // Add the legs if needed
@@ -197,6 +201,11 @@ bool PerceivedEntity::addFaceID(std::vector<std::string> faceIDs) {
     return true;
 }
 
+void PerceivedEntity::clearFaceID() {
+    mAssociatedFaceIDs.clear();
+}
+
+
 bool PerceivedEntity::checkLegsID(std::string legID) {
     for (auto & ID : mAssociatedLegsIDs){
         if (ID == legID){
@@ -211,6 +220,10 @@ bool PerceivedEntity::addLegsID(std::string legsID) {
         mAssociatedLegsIDs.push_back(legsID);
     }
     return true;
+}
+
+void PerceivedEntity::clearLegsID() {
+    mAssociatedLegsIDs.clear();
 }
 
 bool PerceivedEntity::addLegsID(std::vector<std::string> legsIDs) {

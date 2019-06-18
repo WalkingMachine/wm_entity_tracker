@@ -92,6 +92,7 @@ public:
     // Add a faceID to the list of associated faceIDs. Return true if the face already exist in the list.
     bool addFaceID(std::string faceID);
     bool addFaceID(std::vector<std::string> faceIDs);
+    void clearFaceID();
     std::vector<std::string> associatedFaceIDs() const { return mAssociatedFaceIDs; }
 
     // Verify if a legsID is in the list of associated faceIDs.
@@ -99,6 +100,7 @@ public:
     // Add a legsID to the list of associated legsIDs. Return true if the face already exist in the list.
     bool addLegsID(std::string legsID);
     bool addLegsID(std::vector<std::string> legsIDs);
+    void clearLegsID();
     std::vector<std::string> associatedLegsIDs() const { return mAssociatedLegsIDs; }
 };
 

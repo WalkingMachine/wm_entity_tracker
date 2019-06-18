@@ -18,6 +18,7 @@ void EntityTracker::update(ros::Duration deltaTime) {
     // Reduce slightly the existance probability to eliminate old entities.
     for (auto &entity : mEntities) {
         entity.probability -= decayRate();
+        if (entity.probability < 0) entity.probability = 0;
     }
 
     // merge entities togeter if too similar
@@ -60,7 +61,9 @@ void EntityTracker::update(ros::Duration deltaTime) {
 }
 
 bool entityIsDead(PerceivedEntity &entity) {
-    return entity.probability < 0 && entity.associatedFaceIDs().size() == 0;
+    bool out{(entity.probability < 0 && entity.associatedFaceIDs().size() == 0) || entity.probability == -1};
+    if (out) ROS_INFO("Entity %d is dead.", entity.ID);
+    return out;
 }
 
 void EntityTracker::deleteDeads() {
