@@ -117,7 +117,7 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
         markerPublisher.publish(nametag);
 
         idTag.id = entity.ID;
-        idTag.text = std::to_string(entity.ID);
+        idTag.text = std::to_string(entity.ID)+"("+entity.face.gender+")";
         idTag.pose.position.x = entity.position.x;
         idTag.pose.position.y = entity.position.y;
         idTag.pose.position.z = entity.position.z + 0.10;

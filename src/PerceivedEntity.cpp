@@ -129,7 +129,11 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
     // Add the face if needed
     if (source.associatedFaceIDs().size()){
         addFaceID(source.associatedFaceIDs() );
+        std::string gender = face.gender;
         face = source.face;
+        if (source.face.gender.empty()){
+            face.gender = gender;
+        }
         source.clearFaceID();
     }
 
