@@ -15,12 +15,12 @@ using namespace sara_msgs;
 #define rescaleY(y) int((y-mMinY)*mScalingY)
 
 #define drawCross(pose, color, d) \
-cv::line( img, Point( pose.position.x - d, pose.position.y - d ), Point( pose.position.x + d, pose.position.y + d ), color, 2, CV_AA, 0); \
-cv::line( img, Point( pose.position.x + d, pose.position.y - d ), Point( pose.position.x - d, pose.position.y + d ), color, 2, CV_AA, 0 )
+cv::line( img, Point( pose.x - d, pose.y - d ), Point( pose.x + d, pose.y + d ), color, 2, CV_AA, 0); \
+cv::line( img, Point( pose.x + d, pose.y - d ), Point( pose.x - d, pose.y + d ), color, 2, CV_AA, 0 )
 
-#define drawX(center, color, d) \
-cv::line( img, Point( pose.position.x, pose.position.y - d ), Point( pose.position.x, pose.position.y + d ), color, 2, CV_AA, 0); \
-cv::line( img, Point( pose.position.x + d, pose.position.y ), Point( pose.position.x - d, pose.position.y ), color, 2, CV_AA, 0 )
+#define drawX(pose, color, d) \
+cv::line( img, Point( pose.x, pose.y - d ), Point( pose.x, pose.y + d ), color, 2, CV_AA, 0); \
+cv::line( img, Point( pose.x + d, pose.y ), Point( pose.x - d, pose.y ), color, 2, CV_AA, 0 )
 
 
 CvOutput::CvOutput(float minX, float minY, float maxX, float maxY)
