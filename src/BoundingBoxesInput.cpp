@@ -34,8 +34,8 @@ void BoundingBoxesInput::BoundingBoxesCallback(sara_msgs::BoundingBoxes3D boundi
 
         PerceivedEntity en;
         en.BoundingBox = boundingBox;
-        en.name = boundingBox.Class;
-        en.position = boundingBox.Center;
+        en.name = boundingBox.className;
+        en.position = boundingBox.pose.position;
         en.probability = boundingBox.probability;
         en.lastUpdateTime = boundingBoxes3D.header.stamp;
 
@@ -43,7 +43,7 @@ void BoundingBoxesInput::BoundingBoxesCallback(sara_msgs::BoundingBoxes3D boundi
             // If the entity is a person
             if (en.name.compare("person") == 0) {
                 en.position.z = 0;
-                en.face.boundingBox.Center.z = 1.5;
+                en.face.boundingBox.pose.position.z = 1.5;
             }
             entities.push_back(en);
         } else {

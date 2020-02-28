@@ -56,7 +56,7 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
     faceID.color.g = 1;
     faceID.color.b = 0.0;
     faceID.color.a = 1;
-    
+
     visualization_msgs::Marker nametag;
     nametag.header.stamp = ros::Time::now();
     nametag.lifetime = ros::Duration(0.5);
@@ -109,16 +109,16 @@ void RvizOutput::writeEntities(const vector<PerceivedEntity> &entities) {
         markerPublisher.publish(idTag);
 
         face.id = entity.ID;
-        face.pose.position.x = entity.face.boundingBox.Center.x;
-        face.pose.position.y = entity.face.boundingBox.Center.y;
-        face.pose.position.z = entity.face.boundingBox.Center.z;
+        face.pose.position.x = entity.face.boundingBox.pose.position.x;
+        face.pose.position.y = entity.face.boundingBox.pose.position.y;
+        face.pose.position.z = entity.face.boundingBox.pose.position.z;
         markerPublisher.publish(face);
 
         faceID.id = entity.ID;
         faceID.text = entity.face.id.c_str();
-        faceID.pose.position.x = entity.face.boundingBox.Center.x;
-        faceID.pose.position.y = entity.face.boundingBox.Center.y;
-        faceID.pose.position.z = entity.face.boundingBox.Center.z+0.1;
+        faceID.pose.position.x = entity.face.boundingBox.pose.position.x;
+        faceID.pose.position.y = entity.face.boundingBox.pose.position.y;
+        faceID.pose.position.z = entity.face.boundingBox.pose.position.z+0.1;
         markerPublisher.publish(faceID);
     }
 }

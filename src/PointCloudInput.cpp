@@ -35,7 +35,7 @@ void PointCloudInput::PointCloudCallback(sara_msgs::PointClouds PCs) {
         PerceivedEntity en;
         en.BoundingBox = PC.boundingBox;
         en.pointcloud = PC.pointCloud;
-        en.position = PC.boundingBox.Center;
+        en.position = PC.boundingBox.pose.position;
         en.name = "unknown";
         en.probability = 1.0;
         en.lastUpdateTime = PCs.header.stamp;

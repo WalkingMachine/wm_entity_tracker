@@ -76,14 +76,14 @@ float PerceivedEntity::compareWith(const PerceivedEntity &en) const {
             && (name.compare("person") == 0 | en.name.compare("person") == 0)) difference += 140000;
 
 
-        double sx1{BoundingBox.Width*BoundingBox.Width};
-        double sy1{BoundingBox.Height*BoundingBox.Height};
-        double sz1{BoundingBox.Depth*BoundingBox.Depth};
+        double sx1{BoundingBox.width*BoundingBox.width};
+        double sy1{BoundingBox.height*BoundingBox.height};
+        double sz1{BoundingBox.depth*BoundingBox.depth};
         double size1{sqrt(sx1+sy1+sz1)};
 
-        double sx2{en.BoundingBox.Width*en.BoundingBox.Width};
-        double sy2{en.BoundingBox.Height*en.BoundingBox.Height};
-        double sz2{en.BoundingBox.Depth*en.BoundingBox.Depth};
+        double sx2{en.BoundingBox.width*en.BoundingBox.width};
+        double sy2{en.BoundingBox.height*en.BoundingBox.height};
+        double sz2{en.BoundingBox.depth*en.BoundingBox.depth};
         double size2{sqrt(sx2+sy2+sz2)};
 
         if (size1 != 0 && size2 != 0){
@@ -139,9 +139,9 @@ void PerceivedEntity::mergeOnto(PerceivedEntity &source) {
     }
 
     // Move the head
-    face.boundingBox.Center.x = position.x;
-    face.boundingBox.Center.y = position.y;
-    if (face.id.empty()) face.boundingBox.Center.z = position.z;
+    face.boundingBox.pose.position.x = position.x;
+    face.boundingBox.pose.position.y = position.y;
+    if (face.id.empty()) face.boundingBox.pose.position.z = position.z;
 
     // Associate a new name if needed
     if (name.compare(mUnknownName) == 0){

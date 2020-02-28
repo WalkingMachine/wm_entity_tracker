@@ -29,7 +29,7 @@ void PeopleFaceInput::peopleFaceCallback(sara_msgs::Faces faceArray) {
     for (auto &face : faceArray.faces) {
         // Creating a new entity with a face
         PerceivedEntity en;
-        en.position = face.boundingBox.Center;
+        en.position = face.boundingBox.pose.position;
         en.position.z = 0;
         en.face = face;
         en.addFaceID(face.id);

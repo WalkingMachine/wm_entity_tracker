@@ -15,9 +15,9 @@
 #include "wm_entity_tracker/wm_entity_trackerConfig.h"
 #include "PointCloudInput.h"
 
-#define drawCross(center, color, d) \
-line( img, Point( center.x - d, center.y - d ), Point( center.x + d, center.y + d ), color, 2, CV_AA, 0); \
-line( img, Point( center.x + d, center.y - d ), Point( center.x - d, center.y + d ), color, 2, CV_AA, 0 )
+#define drawCross(pose.position, color, d) \
+line( img, Point( pose.position.x - d, pose.position.y - d ), Point( pose.position.x + d, pose.position.y + d ), color, 2, CV_AA, 0); \
+line( img, Point( pose.position.x + d, pose.position.y - d ), Point( pose.position.x - d, pose.position.y + d ), color, 2, CV_AA, 0 )
 
 namespace wm_entity_tracker {
 
@@ -144,5 +144,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-
-
